@@ -69,4 +69,15 @@ public class ArticleController {
         HttpStatus status = result ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         return new ResponseEntity<Boolean>(result, status);
     }
+
+    @GetMapping("/getArticle/{typeName}")
+    @ApiOperation(value = "根据类型的id获取文章分页获取", notes = "getArticleInfoByTypePageAndSize", produces = "application/json;charset=UTF-8")
+    public ResponseEntity<PageBean<ArticleEntity>> getUerInfoByTypePageSize(
+            @PathVariable("typeName") String typeName,
+            @RequestParam(value = "page", defaultValue = "1", required = false) Integer page,
+            @RequestParam(value = "size", defaultValue = "5", required = false) Integer size
+    ) {
+        PageBean<ArticleEntity> result = articleServices.getArticleByType(typeName, page,size);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
 }

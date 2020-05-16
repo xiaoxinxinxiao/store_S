@@ -26,4 +26,7 @@ public interface ArticleServices {
 
     // 更新文章的收藏
     Boolean UpdateArticleStars(String id);
+
+    // 根据类型名称获取文章
+    PageBean getArticleByType(String typeName, int page, int size);
 }

@@ -10,11 +10,29 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface ArticleRepository extends JpaRepository<ArticleEntity, String> {
-    // 根据用户id分页获取用户自己发布的文章
+    /**
+     * 根据用户id分页获取用户自己发布的文章
+     * @param personId
+     * @param pageable
+     * @return
+     */
     @Query(value = "select c from ArticleEntity  as c where c.authorId=:personId")
     Page  getOwnArticleByPersonal(@Param("personId") String personId, Pageable pageable);
 
-    // 根据文章的id获取文章的信息
+    /**
+     * 根据文章的id获取文章的信息
+     * @param id
+     * @return
+     */
     @Query(value = "select c from ArticleEntity as c where c.id=:id")
     ArticleEntity getArticleEntitiesById(@Param("id") String id);
+
+    /**
+     * 获取类型文章
+     * @param typeName
+     * @param pageable
+     * @return
+     */
+    @Query(value = "select c from ArticleEntity as c where c.typeId = :typeName")
+    Page getArticleByTypeName(@Param("typeName") String typeName, Pageable pageable);
 }

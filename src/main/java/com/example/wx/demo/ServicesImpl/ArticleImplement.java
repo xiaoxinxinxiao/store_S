@@ -88,14 +88,9 @@ public class ArticleImplement implements ArticleServices {
 
     @Override
     public PageBean getOwnArticleByPageAndSize(String id, Integer page, Integer size) {
-        PageBean pageBean = new PageBean();
         Pageable pageable = PageRequest.of(page-1, size);
         Page result = articleRepository.getOwnArticleByPersonal(id, pageable);
-        pageBean.setList(result.getContent());
-        pageBean.setTotal(result.getTotalElements());
-        pageBean.setCurrentSize(result.getSize());
-        pageBean.setCurrentPage(result.getTotalPages());
-        return pageBean;
+        return pageFun(result);
     }
 
     @Override
@@ -120,5 +115,21 @@ public class ArticleImplement implements ArticleServices {
             articleRepository.saveAndFlush(result);
             return true;
         }
+    }
+
+    @Override
+    public PageBean getArticleByType(String typeName, int page, int size) {
+        Pageable pageable = PageRequest.of(page-1, size);
+        Page result = articleRepository.getArticleByTypeName(typeName, pageable);
+        return pageFun(result);
+    }
+
+    public PageBean pageFun(Page result) {
+        PageBean pageBean = new PageBean();
+        pageBean.setList(result.getContent());
+        pageBean.setTotal(result.getTotalElements());
+        pageBean.setCurrentSize(result.getSize());
+        pageBean.setCurrentPage(result.getTotalPages());
+        return pageBean;
     }
 }
